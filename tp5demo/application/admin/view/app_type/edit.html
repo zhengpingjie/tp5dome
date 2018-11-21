@@ -1,0 +1,39 @@
+{extend name="layout/common" /}
+
+
+{block name="header"}
+
+{/block}
+
+{block name="body"}
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="box box-success">
+            <div class="box-header with-border">
+            </div>
+            <form method="post" action="{:Url('upd')}" enctype="multipart/form-data" >
+                <table class="table table-hover table-bordered">
+                    <tbody>
+                        <tr>
+                            <td colspan="3"><h3>编辑分类</h3></td>
+                        </tr>
+                        <tr>
+                            <td width="200">名称：</td>
+                            <td colspan="3">
+                                <input name="name" id="name"  size="16" type="text" value="{$info['name']}" style="width: 400px;" /> <span>*</span>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <div class="row-fluid" style="margin-top: 20px;margin-left: 200px;padding-bottom:20px;">
+                    <notempty name="info.id"><input type="hidden" name="id" value="{$info['id']}"/></notempty>
+                    <button class="btn btn-primary" type="submit">提交</button>
+                    <button class="btn" type="reset" style="margin-left: 30px;">取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{/block}

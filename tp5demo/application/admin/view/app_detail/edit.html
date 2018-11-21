@@ -1,0 +1,94 @@
+{extend name="layout/common" /}
+
+
+{block name="header"}
+
+{/block}
+
+{block name="body"}
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="box box-success">
+            <div class="box-header with-border">
+            </div>
+            <form method="post" action="{:Url('updd')}" enctype="multipart/form-data" >
+                <table class="table table-hover table-bordered">
+                    <tbody>
+                        <tr>
+                            <td colspan="3"><h3>微榜详情编辑</h3></td>
+                        </tr>
+                        <tr>
+                            <td width="200">类型：</td>
+                            <td colspan="3">
+                                <select name="type_id" id="type_id" class="" onchange="getapplist()">
+                                    <option value="">请选择类型</option>
+                                    {volist name="type_list" id="vo"}
+                                        <option value="{$vo.id}">{$vo.name}</option>
+                                    {/volist} 
+                                </select>                           
+                                <script>
+                                    $("#type_id").val("{$info['type_id']}") ;
+                                    var ajaxurl = "{:Url('applist')}";
+                                    var app_id = "{$info['app_id']}";
+                                    function getapplist(){
+                                        var type_id =  $("#type_id").val();
+                                        var option = "<option value=''>请选择微程序</option>";
+                                        if(type_id){
+                                            $.get(ajaxurl,{type_id:type_id},function(res){
+//                                                console.log(res)
+                                                res = JSON.parse(res);
+                                                $("#app_id").empty();
+                                                if(res){
+                                                   var len = res.length;
+                                                   for (var j = 0;j<len;j++){
+                                                       option += "<option value='"+res[j].id+"' >"+res[j].name+"</option>";
+                                                   }
+                                                }
+                                                $("#app_id").append(option)
+                                            })
+                                        }
+                                    }
+                                </script>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="200">微程序：</td>
+                            <td colspan="3">
+                                <select name="app_id" id="app_id" class="">
+                                    <option value="">请选择微程序</option>
+                                    {volist name="app_list" id="vo"}
+                                    <option value="{$vo.id}">{$vo.name}</option>
+                                    {/volist}
+                                </select>
+                                <script>
+                                    $("#app_id").val("{$info['app_id']}") ;
+                                </script>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="200">图片：</td>
+                            <td colspan="3">
+                                <input name="imgs" id="imgs" type="file" /> <span>*</span>
+                                <if condition="!empty($info['imgs'])"><img class="game_ico" src="{$info['imgs']}" width="70"></if>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td width="200">内容：</td>
+                            <td colspan="3">
+                                <textarea id="desp" name="desp" rows="8" style="width: 800px;">{$info['desp']}</textarea>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row-fluid" style="margin-top: 20px;margin-left: 200px;padding-bottom:20px;">
+                    <notempty name="info.id"><input type="hidden" name="id" value="{$info['id']}"/></notempty>
+                    <button class="btn btn-primary" type="submit">提交</button>
+                    <button class="btn" type="reset" style="margin-left: 30px;">取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{/block}
